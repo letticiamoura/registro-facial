@@ -48,9 +48,11 @@ export default function Form() {
        setTimeout(() => {
          setCapturedImage(null)
        }, 60000)
-       
+      
+      alert("Frequência Realizada!")
       console.log('Dados do Formulário:', formData);
     } else {
+      alert("Erro ao realizar frequência!")
       console.error('A câmera não está acessível');
     }
   };
