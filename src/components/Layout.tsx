@@ -8,7 +8,7 @@ interface ILayoutProps {
 
 export default function Layout({children}: ILayoutProps) {
     return(
-        <section>
+        <section className="bg-zinc-50">
             <Header />
 
             <main>
