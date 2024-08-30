@@ -40,6 +40,15 @@ export default function Form() {
         foto: imageSrc,
       };
 
+       //Limpando os campos após o click
+       setCpf("");
+       setTurma("");
+ 
+       //Após 1 minuto a imagem sumirá
+       setTimeout(() => {
+         setCapturedImage(null)
+       }, 60000)
+       
       console.log('Dados do Formulário:', formData);
     } else {
       console.error('A câmera não está acessível');
