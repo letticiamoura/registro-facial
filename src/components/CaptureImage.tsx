@@ -9,13 +9,13 @@ export default function CaptureImage({ onCapture }: ICaptureImageProps) {
  
     const webcamRef = useRef<Webcam>(null);
 
-  const capture = () => {
-    if (webcamRef.current) {
-      const imageSrc = webcamRef.current.getScreenshot();
-      onCapture(imageSrc);
-      console.log(capture)
-    }
-  };
+    const capture = () => {
+        if (webcamRef.current) {
+          const imageSrc = webcamRef.current.getScreenshot();
+          onCapture(imageSrc || null); 
+          console.log("Capturando: " + capture)
+        }
+      };
 
   return (
     <div className="flex flex-col py-5 items-center">
