@@ -29,6 +29,7 @@ export default function Login() {
             navigate("/home");
         } else if (submitted && autentic === false) {
             alert("Email ou Senha incorreto");
+            navigate("/home");
         }
     }, [autentic, navigate, submitted]);
 
