@@ -10,11 +10,13 @@ export default function Login() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  const url = "https://letticiamoura.github.io/registro-facial-apiFake/api.json";
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.get(`http://localhost:5000/users?username=${username}&password=${password}`);
-      if (response.data.length > 0) {
+      const response = await axios.get(url);
+      if (response.data.users.length > 0) {
         navigate('/home');
       } else {
         setError('Usuário ou senha incorretos, tente novamente');
