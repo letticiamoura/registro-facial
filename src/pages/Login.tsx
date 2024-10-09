@@ -1,69 +1,61 @@
-import { useNavigate } from "react-router-dom";
-import Layout from "../components/Layout";
-import { FormEvent, useEffect, useState } from "react";
+import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import Layout from '../components/Layout';
 
 export default function Login() {
-    const navigate = useNavigate();
+    
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-    const [autentic, setAutentic] = useState(false);
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [submitted, setSubmitted] = useState(false);
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await axios.get(`http://localhost:5000/users?username=${username}&password=${password}`);
+      if (response.data.length > 0) {
+        navigate('/home');
+      } else {
+        setError('Usuário ou senha incorretos, tente novamente');
+      }
+    } catch (err) {
+      console.error(err);
+      setError('Ocorreu um erro ao tentar fazer login');
+    }
+  };
 
-    const handleLogin = (e: FormEvent) => {
-        e.preventDefault();
-        setSubmitted(true); 
-        
-        const validEmail = "admin@gmail.com";
-        const validPassword = "admin";
+  const label = "w-full md:w-[50vw] space-y-2 text-zinc-700 text-md font-medium";
+  const classname = "w-full p-2 rounded-md border border-gray-700 focus:border-none focus:ring-2 focus:ring-orange-500 outline-none md:w-[50vw]";
 
-        if (email === validEmail && password === validPassword) {
-            setAutentic(true);
-        } else {
-            setAutentic(false);
-        }
-    };
+  return (
+    <Layout>
+      <h2 className="pt-20 text-center text-4xl font-bold text-orange-500 font-serif uppercase">Faça o seu Login <br />no Sistema</h2>
+      <form onSubmit={handleLogin} className="pt-20 px-10 flex space-y-6 flex-col items-center">
 
-    useEffect(() => {
-        if (autentic === true) {
-            navigate("/home");
-        } else if (submitted && autentic === false) {
-            alert("Email ou Senha incorreto");
-            navigate("/home");
-        }
-    }, [autentic, navigate, submitted]);
-
-    const label = "w-full space-y-2 text-zinc-700 text-md font-medium";
-    const classname = "w-full p-2 rounded-md border border-gray-700 focus:border-none focus:ring-2 focus:ring-orange-500 outline-none";
-
-    return (
-        <Layout>
-            <h2 className="pt-20 text-center text-4xl font-bold text-orange-500 font-serif uppercase">Faça seu Login <br />no Sistema</h2>
-            <form onSubmit={handleLogin} className="pt-20 px-10 flex space-y-6 flex-col items-center">
-                <label htmlFor="email" className={label}>Usuário <br />
-                    <input 
-                        type="text" 
-                        placeholder="Seu usuário" 
-                        required 
-                        className={classname} 
-                        value={email} 
-                        onChange={(e) => setEmail(e.target.value)} 
-                    />
-                </label>
-                <label htmlFor="password" className={label}>Senha <br />
-                    <input 
-                        type="password" 
-                        placeholder="********" 
-                        required 
-                        className={classname} 
-                        value={password} 
-                        onChange={(e) => setPassword(e.target.value)} 
-                    />
-                </label>
-                <button type="submit" className="pt-5 w-full">
-                    <input type="submit" value="Entrar" className="bg-orange-500 p-2.5 rounded-md w-full text-2xl text-white" />
-                </button>
-            </form>
-        </Layout>
-    );
-}
+          <label className={label}>Usuário <br />
+            <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                className={classname}
+            />
+          </label>
+          
+          <label className={label}>Senha <br />
+            <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className={classname}
+            />
+          </label>
+          
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <button type="submit" className="md:w-[30vw] bg-orange-500 p-2.5 rounded-md w-full text-2xl text-white" >Login</button>
+      </form>
+    </Layout>
+  );
+} 
