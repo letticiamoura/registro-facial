@@ -16,7 +16,14 @@ export default function Login() {
     e.preventDefault();
     try {
       const response = await axios.get(url);
-      if (response.data.users.length > 0) {
+      const users = response.data.users;
+  
+      //Verificando se existe um user
+      const user = users.find((user: { username: string, password: string }) => 
+        user.username === username && user.password === password
+      );
+  
+      if (user) {
         navigate('/home');
       } else {
         setError('Usuário ou senha incorretos, tente novamente');
@@ -25,7 +32,7 @@ export default function Login() {
       console.error(err);
       setError('Ocorreu um erro ao tentar fazer login');
     }
-  };
+  };  
 
   const label = "w-full md:w-[50vw] space-y-2 text-zinc-700 text-md font-medium";
   const classname = "w-full p-2 rounded-md border border-gray-700 focus:border-none focus:ring-2 focus:ring-orange-500 outline-none md:w-[50vw]";
