@@ -95,7 +95,7 @@ export default function Form() {
 
       <form onSubmit={handleSubmit} className="pb-3 px-5 flex flex-col justify-center m-auto space-y-6">
         <div className="flex flex-col gap-2">
-          <label htmlFor="cpf" className="text-sm font-medium text-gray-700">
+          <label htmlFor="cpf" className="w-full md:w-2/4 m-auto text-sm font-medium text-gray-700">
             Digite seu CPF:
           </label>
           <input
@@ -106,45 +106,27 @@ export default function Form() {
             onChange={(e) => setCpf(e.target.value)}
             placeholder="XXX.XXX.XXX-XX"
             required
-            className="p-3 border border-gray-300 rounded-md"
+            className="md:w-2/4 w-full m-auto p-3 md:p-2 border border-gray-300 rounded-md"
           />
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <label htmlFor="turmas" className="block text-sm font-medium text-gray-700">
-            Informe sua Turma:
-          </label>
-          <select
-            name="turmas"
-            id="turmas"
-            value={turma}
-            onChange={(e) => setTurma(e.target.value)}
-            required
-            className="p-3 border border-gray-300 rounded-md"
-          >
-            { 
-              allTurmas.map((turma) => (
-                <option className="text-gray-700" key={turma.id} value={turma.title}>{turma.title}</option>
-              ))
-            }
-          </select>
         </div>
 
         <button
           type="submit"
           disabled={!isCameraAccessible}
-          className="p-2.5 text-2xl font-medium rounded-md text-white bg-orange-500 hover:bg-orange-600 transition-colors duration-200 disabled:bg-gray-400"
+          className="md:w-2/4 w-full m-auto p-2.5 text-2xl font-medium rounded-md text-white bg-orange-500 hover:bg-orange-600 transition-colors duration-200 disabled:bg-gray-400"
         >
           Registrar
         </button>
       </form>
 
       {capturedImage && (
-        <div className="flex flex-col justify-center items-center mt-4">
-          <h2 className="text-xl font-serif font-medium mb-2 text-orange-500">Registro Capturado:</h2>
-          <img src={capturedImage} alt="Captura do Aluno" className="border h-60 w-60 object-cover border-gray-300 rounded-full" />
-          {capturedCpf && <p>CPF: {capturedCpf}</p>}
-          {capturedTurma && <p>Turma: {capturedTurma}</p>}
+        <div className="absolute left-0 right-0 bottom-0 m-auto top-0 flex flex-col justify-center items-center mt-4">
+          <div className="space-y-10 bg-orange-500 h-[70vh] w-[60vw] flex flex-col justify-center items-center">
+            <button className="text-4xl font-extrabold text-white flex justify-end">X</button>
+            <h2 className="text-xl font-serif font-medium mb-2 text-orange-500">Registro Capturado:</h2>
+            <img src={capturedImage} alt="Captura do Aluno" className="border h-60 w-60 object-cover border-gray-300 rounded-full" />
+            {capturedCpf && <p className="text-white">CPF: {capturedCpf}</p>}
+          </div>
         </div>
       )}
     </Layout>
