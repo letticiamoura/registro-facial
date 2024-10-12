@@ -8,17 +8,8 @@ export default function Form() {
   const [cpf, setCpf] = useState('');
   const [turma, setTurma] = useState('');
 
-  const allTurmas = [
-    {id: 1, title: "Selecione uma Turma"},
-    {id: 2, title: "Administração"},
-    {id: 3, title: "Enfermagem"},
-    {id: 4, title: "Eletrotécnica"},
-    {id: 5, title: "Logística"}
-  ]
-
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [capturedCpf, setCapturedCpf] = useState<string | null>(null);
-  const [capturedTurma, setCapturedTurma] = useState<string | null>(null);
   const [isCameraAccessible, setIsCameraAccessible] = useState(true);
 
   useEffect(() => {
@@ -42,7 +33,6 @@ export default function Form() {
 
       // Salva os valores do CPF e da Turma
       setCapturedCpf(cpf);
-      setCapturedTurma(turma);
 
       // Dados do formulário
       const formData = {
@@ -59,7 +49,6 @@ export default function Form() {
       setTimeout(() => {
         setCapturedImage(null);
         setCapturedCpf(null);
-        setCapturedTurma(null);
       }, 60000);
 
       alert("Frequência Realizada!");
