@@ -14,7 +14,7 @@ interface Student {
   cpf: string;
   nascimento: string;
   matricula: string;
-  curso: string;
+  cursoId: string;
 }
 
 interface Course {
@@ -82,7 +82,7 @@ export default function Students() {
                     <td className="px-4 py-2">{student.nome}</td>
                     <td className="px-4 py-2">{student.cpf}</td>
                     <td className="px-4 py-2">{student.matricula}</td>
-                    <td className="px-4 py-2">{student.curso}</td>
+                    <td className="px-4 py-2">{student.cursoId}</td>
                     <td className="px-4 py-2">
                         <div className="flex justify-center space-x-3">
                         <button> <FaEdit size={20} color="green" /> </button>
