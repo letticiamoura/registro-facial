@@ -1,12 +1,8 @@
-import { Link } from "react-router-dom";
-
-import { FaChevronLeft } from "react-icons/fa";
-import { IoAddCircleSharp } from "react-icons/io5";
-import { useEffect, useState } from "react";
-import { FaEdit } from "react-icons/fa";
-import { FaTrash } from "react-icons/fa";
-
-import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { FaEdit, FaTrash, FaAngleLeft } from "react-icons/fa";
+import { MdOutlineAdd } from "react-icons/md";
 
 interface Student {
   id: number;
@@ -18,19 +14,18 @@ interface Student {
 }
 
 interface Course {
-    id: number;
-    nome: string;
+  id: number;
+  nome: string;
 }
 
 export default function Students() {
+  const navigate = useNavigate();
 
-  const [ data, setData ] = useState<Student[]>([]);
-  
-  const [ dataCourse, setDataCourse ] = useState<Course[]>([]);
-  
-  const [ loading, setLoading ] = useState(true);
-  const [ error, setError ] = useState('');
-  const [ open, setOpen ] = useState(false);
+  const [data, setData] = useState<Student[]>([]);
+  const [dataCourse, setDataCourse] = useState<Course[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [open, setOpen] = useState(false);
 
   const url = "https://letticiamoura.github.io/registro-facial-apiFake/api.json";
 
@@ -38,15 +33,14 @@ export default function Students() {
     const fetchData = async () => {
       try {
         const res = await axios.get(url);
-        setData(res.data.students); 
+        setData(res.data.students);
         setDataCourse(res.data.courses);
-        setLoading(false); 
+        setLoading(false);
       } catch (error) {
         setError('Erro ao buscar dados da API');
         setLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
@@ -55,99 +49,114 @@ export default function Students() {
 
   const handleOpen = () => setOpen(!open);
 
-  const label = "w-full md:w-[50vw] md:m-auto space-y-2 text-zinc-700 text-md font-medium";
-  const classname = "w-full p-2 rounded-md border border-gray-700 focus:border-none focus:ring-2 focus:ring-orange-500 outline-none md:w-[50vw]";
+  const labelStyle = "block text-sm font-medium text-orange-500";
+  const inputStyle = "w-full p-2 border rounded-md outline-none focus:ring-2 focus:ring-orange-500";
 
   return (
-      <main className="w-full bg-orange-500 h-screen">
-        <header className="w-auto space-x-10 flex items-center justify-center md:justify-around py-10">
-            <Link to="/home"> <FaChevronLeft size={50} color="white" className="hover:scale-110 transition-all" /> </Link>
-            <h1 className="text-4xl font-serif font-bold text-white uppercase">Alunos</h1>
-            <button onClick={handleOpen}> <IoAddCircleSharp size={65} color="white" className="hover:scale-110 transition-all" /> </button>
-        </header>
-        <div className="w-full overflow-x-auto">
-            <table className="min-w-full table-auto text-center bg-white rounded-lg shadow-lg">
-                <thead>
-                <tr className="bg-orange-300 text-white border-b border-orange-400">
-                    <th className="px-4 py-2">Nome</th>
-                    <th className="px-4 py-2">CPF</th>
-                    <th className="px-4 py-2">Matrícula</th>
-                    <th className="px-4 py-2">Curso</th>
-                    <th className="px-4 py-2">Ação</th>
-                </tr>
-                </thead>
-                <tbody>
-                {data.map((student) => (
-                    <tr key={student.id} className="border-b border-orange-100 bg-orange-50 hover:bg-orange-100 text-gray-700">
-                    <td className="px-4 py-2">{student.nome}</td>
-                    <td className="px-4 py-2">{student.cpf}</td>
-                    <td className="px-4 py-2">{student.matricula}</td>
-                    <td className="px-4 py-2">{student.cursoId}</td>
-                    <td className="px-4 py-2">
-                        <div className="flex justify-center space-x-3">
-                        <button> <FaEdit size={20} color="green" /> </button>
-                        <button> <FaTrash size={20} color="red" /> </button>
-                        </div>
-                    </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-4xl font-serif font-extrabold text-center mb-8 text-orange-500">Lista de Estudantes</h1>
+      
+      <div className="mb-4 py-3 flex justify-between">
+        <button
+          onClick={() => navigate(-1)}
+          className="text-orange-500 rounded-md hover:bg-orange-600 hover:text-white hover:transition-colors">
+          <FaAngleLeft size={50} />
+        </button>
+        <button onClick={handleOpen}
+          className="bg-orange-500 text-white px-2 py-2 rounded-full hover:bg-orange-600 hover:scale-105 hover:transition-colors hover:delay-300">
+          <MdOutlineAdd size={30} className="hover:scale-110 hover:transition-transform hover:delay-300" />
+        </button>
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="min-w-full table-auto border-collapse border border-orange-500 shadow-md">
+          <thead className="bg-orange-500">
+            <tr>
+              <th className="px-4 py-2 text-white">Nome</th>
+              <th className="px-4 py-2 text-white">CPF</th>
+              <th className="px-4 py-2 text-white">Matrícula</th>
+              <th className="px-4 py-2 text-white">Curso</th>
+              <th className="px-4 py-2 text-white">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((student) => (
+              <tr key={student.id} className="bg-white hover:bg-orange-100 text-center">
+                <td className="border px-2 p-1">{student.nome}</td>
+                <td className="border px-2 p-1">{student.cpf}</td>
+                <td className="border px-2 p-1">{student.matricula}</td>
+                <td className="border px-2 p-1">{student.cursoId}</td>
+                <td className="border px-2 p-1">
+                  <div className="flex justify-center items-center">
+                    <button className="text-white px-2 p-1 rounded-md hover:scale-110 mr-2">
+                      <FaEdit size={20} color="green" />
+                    </button>
+                    <button className="text-white px-2 p-1 rounded-md hover:scale-110">
+                      <FaTrash size={20} color="red" />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      
+      {open && (
+        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white w-full max-w-lg p-6 rounded-md shadow-lg">
+            <div className="flex justify-around items-center mb-4">
+                <h2 className="text-2xl px-20 font-serif font-bold text-orange-500">Cadastrar novo aluno</h2>
+                <h2 onClick={handleOpen} className="text-3xl font-bold text-orange-500 hover:text-orange-600 hover:scale-105 cursor-pointer">X</h2>
+            </div>
+            <div className="mb-4">
+                <label className={labelStyle}>Nome</label>
+                <input
+                    type="text"
+                    name="name"
+                    className={inputStyle}
+                    placeholder="Digite o nome"
+                    required
+                />
+            </div>
+            <div className="mb-4">
+              <label className={labelStyle}>CPF</label>
+              <input
+                type="text"
+                name="cpf"
+                className={inputStyle}
+                placeholder="Digite o CPF"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className={labelStyle}>Matrícula</label>
+              <input
+                type="text"
+                name="matricula"
+                className={inputStyle}
+                placeholder="Digite a matrícula"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className={labelStyle}>Curso</label>
+              <input
+                type="text"
+                name="curso"
+                className={inputStyle}
+                placeholder="Digite o curso"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600 w-full">
+              Cadastrar
+            </button>
+          </div>
         </div>
-
-        {  
-            open &&   
-                <div className="absolute left-0 right-0 bottom-0 m-auto top-0 flex flex-col justify-center items-center mt-4 transition-all">
-                    <div className="space-y-2 h-3/4 w-3/4 bg-zinc-100 rounded-md p-5 shadow-md">
-                        <div className="py-2 flex items-center justify-between">
-                            <h1 className="text-center font-bold text-4xl font-serif text-orange-500">Cadastro</h1>
-                            <h1 onClick={handleOpen} className="text-4xl font-medium font-serif text-orange-500 hover:scale-105 transition-all">X</h1>
-                        </div>
-                        <form className="flex flex-col space-y-5">
-                            <label className={label}>Nome <br />
-                                <input
-                                    type="text"
-                                    placeholder="Digite o nome do aluno..."
-                                    className={classname}
-                                    required
-                                />
-                            </label>
-                            <label className={label}>CPF <br />
-                                <input
-                                    type="text"
-                                    placeholder="Ex: XXX.XXX.XXX-XX"
-                                    className={classname}
-                                    required
-                                />
-                            </label>
-                            <label className={label}>Matrícula <br />
-                                <input
-                                    type="text"
-                                    placeholder="Ex: 202301"
-                                    className={classname}
-                                    required
-                                />
-                            </label>
-                            <label className={label}> Curso <br />
-                                <select name="courses" id="course" className={classname} required>
-                                    {dataCourse.map((course) => (
-                                        <option key={course.id} value={course.id}>
-                                        {course.nome}
-                                        </option>
-                                    ))}
-                                </select>
-                            </label>
-                            <button
-                                type="submit"
-                                className="md:w-2/4 w-full m-auto p-2.5 text-2xl font-medium rounded-md text-white bg-orange-500 hover:bg-orange-600 transition-colors duration-200 disabled:bg-gray-400"
-                                >
-                                Cadastrar
-                            </button>
-                        </form>
-                    </div>
-                </div>
-        }
-
-      </main>
+      )}
+    </div>
   );
 }
