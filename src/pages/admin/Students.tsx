@@ -27,6 +27,8 @@ export default function Students() {
   const [error, setError] = useState('');
   const [open, setOpen] = useState(false);
 
+  console.log(dataCourse)
+
   const url = "https://letticiamoura.github.io/registro-facial-apiFake/api.json";
 
   useEffect(() => {
