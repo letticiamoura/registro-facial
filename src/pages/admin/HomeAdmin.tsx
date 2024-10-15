@@ -9,7 +9,10 @@ import { MdOutlineLogout } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 export default function HomeAdmin() {
-    const classname = "w-[45vw] flex-col flex-wrap sm:w-2/3 lg:w-[15vw] p-5 text-xl rounded-md shadow-md bg-orange-500 text-white hover:bg-orange-400 transition-colors hover:scale-105 duration-200";
+    // const classname = "w-[45vw] flex-col flex-wrap sm:w-2/3 lg:w-[15vw] p-5 text-xl rounded-md shadow-md bg-orange-500 text-white hover:bg-orange-400 transition-colors hover:scale-105 duration-200";
+
+    const classname = "w-[45vw] flex-col flex-wrap sm:w-2/3 lg:w-[15vw] p-5 text-xl rounded-md border-orange-500 text-orange-500 shadow-orange-500 drop-shadow-lg shadow-md transition-colors hover:bg-orange-500 hover:text-white hover:shadow-black/50  hover:scale-105 duration-200";
+
     return(
         <Layout>
             <h2 className="py-8 uppercase text-orange-500 text-center text-2xl font-serif font-medium">Seja bem-vindo(a) ao <br /> <span className="font-extrabold">Sistema de Frequência</span></h2>
