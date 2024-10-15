@@ -3,7 +3,7 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import HomeAdmin from "./pages/admin/HomeAdmin";
-import Students from "./pages/admin/Students";
+import Studentss from "./pages/admin/Studentss";
 
 export default function App() {
   return (
@@ -11,7 +11,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/students" element={<Students />} />
+          <Route path="/students" element={<Studentss />} />
           <Route path="/home" element={<HomeAdmin />} />
           <Route path="/register" element={<Register />} />
         </Routes>
