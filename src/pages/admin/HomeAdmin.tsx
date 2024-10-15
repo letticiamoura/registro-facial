@@ -24,10 +24,10 @@ export default function HomeAdmin() {
                         <BsFillPeopleFill size={60} className="m-auto"/>
                         Estudantes
                     </Link>
-                    <button className={classname}>
+                    <Link to="/teacher" className={classname}>
                         <GiTeacher size={60} className="m-auto" />
                         Professores
-                    </button>
+                    </Link>
                     <button className={classname}>
                         <FaBookReader size={60} className="m-auto" />
                         Disciplinas
