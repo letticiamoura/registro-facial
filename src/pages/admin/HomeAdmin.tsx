@@ -11,11 +11,11 @@ import { Link } from "react-router-dom";
 export default function HomeAdmin() {
     // const classname = "w-[45vw] flex-col flex-wrap sm:w-2/3 lg:w-[15vw] p-5 text-xl rounded-md shadow-md bg-orange-500 text-white hover:bg-orange-400 transition-colors hover:scale-105 duration-200";
 
-    const classname = "w-[45vw] flex-col flex-wrap sm:w-2/3 lg:w-[15vw] p-5 text-xl rounded-md border-orange-500 text-orange-500 shadow-orange-500 drop-shadow-lg shadow-md transition-colors hover:bg-orange-500 hover:text-white hover:shadow-black/50  hover:scale-105 duration-200";
+    const classname = "w-[45vw] flex-col flex-wrap sm:w-2/3 lg:w-[15vw] p-5 text-xl rounded-md border-orange-500 text-blue shadow-blue drop-shadow-lg shadow-md transition-colors hover:bg-ligth-blue hover:text-white hover:shadow-black/50  hover:scale-105 duration-200";
 
     return(
         <Layout>
-            <h2 className="py-8 uppercase text-orange-500 text-center text-2xl font-serif font-medium">Seja bem-vindo(a) ao <br /> <span className="font-extrabold">Sistema de Frequência</span></h2>
+            <h2 className="py-8 uppercase text-blue text-center text-2xl font-serif font-medium">Seja bem-vindo(a) ao <br /> <span className="font-extrabold">Sistema de Frequência</span></h2>
 
             <div className="px-10 space-y-10 flex-col">
                 
@@ -28,17 +28,17 @@ export default function HomeAdmin() {
                         <GiTeacher size={60} className="m-auto" />
                         Professores
                     </Link>
-                    <button className={classname}>
+                    <Link to="/group" className={classname}>
                         <FaBookReader size={60} className="m-auto" />
                         Disciplinas
-                    </button>
+                    </Link>
                 </div>
                 
                 <div className="hidden sm:flex space-x-10 text-center justify-center items-center">
-                    <button className={classname}>
+                    <Link to="/relatorio" className={classname}>
                         <HiDocument size={60} className="m-auto" />
                         Relatórios
-                    </button>
+                    </Link>
                     <button className={classname}>
                         <IoInformationCircle size={60} className="m-auto" />
                         Informações
