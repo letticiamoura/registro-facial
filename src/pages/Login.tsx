@@ -18,7 +18,6 @@ export default function Login() {
       const response = await axios.get(url);
       const users = response.data.users;
   
-      //Verificando se existe um user
       const user = users.find((user: { username: string, password: string }) => 
         user.username === username && user.password === password
       );
@@ -35,11 +34,11 @@ export default function Login() {
   };  
 
   const label = "w-full md:w-[50vw] space-y-2 text-zinc-700 text-md font-medium";
-  const classname = "w-full p-2 rounded-md border border-gray-700 focus:border-none focus:ring-2 focus:ring-orange-500 outline-none md:w-[50vw]";
+  const classname = "w-full p-2 rounded-md border border-gray-700 focus:border-none focus:ring-2 focus:ring-green  outline-none md:w-[50vw]";
 
   return (
     <Layout>
-      <h2 className="pt-20 text-center text-4xl font-bold text-orange-500 font-serif uppercase">Faça o seu Login <br />no Sistema</h2>
+      <h2 className="pt-20 text-center text-4xl font-bold text-blue font-serif uppercase">Faça o seu Login <br />no Sistema</h2>
       <form onSubmit={handleLogin} className="pt-20 px-10 flex space-y-6 flex-col items-center">
 
           <label className={label}>Usuário <br />
@@ -63,7 +62,7 @@ export default function Login() {
           </label>
           
         {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button type="submit" className="md:w-[30vw] bg-orange-500 p-2.5 rounded-md w-full text-2xl text-white" >Login</button>
+        <button type="submit" className="md:w-[30vw] bg-blue hover:bg-ligth-blue p-2.5 rounded-md w-full text-2xl text-white transform transition-colors hover:scale-105" >Login</button>
       </form>
     </Layout>
   );
