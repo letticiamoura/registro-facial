@@ -30,8 +30,6 @@ export default function Students() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [open, setOpen] = useState(false);
-  const [editMode, setEditMode] = useState(false); 
-  const [currentStudent, setCurrentStudent] = useState<Partial<Student>>({}); // Estado para armazenar o estudante atual
 
   const url = "http://localhost:8080/persons/students";
 

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 interface IRegister  {
   name: string;
@@ -16,8 +15,6 @@ export default function StudentRegister ({name}: IRegister) {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-
-  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
