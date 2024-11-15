@@ -113,7 +113,7 @@ export default function Form() {
               <h2 className="text-xl font-serif font-medium text-white">Registro Capturado:</h2>
             </div>
             
-            <img src="https://letticiamoura.github.io/img-logo/birthday-12378.gif" alt="Gif confetes" className="w-[50vw] fixed object-cover top-1"/>
+            <img src="https://letticiamoura.github.io/img-logo/birthday-12378.gif" alt="Gif confetes" className="h-full w-full md:w-[50vw] fixed object-cover top-1"/>
             <img
               src={capturedImage}
               alt="Captura do Aluno"

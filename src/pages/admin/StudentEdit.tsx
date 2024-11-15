@@ -63,7 +63,7 @@ export default function StudentEdit() {
     }
   };
 
-  if (loading) return <p>Carregando...</p>;
+  if (loading) return ;
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
