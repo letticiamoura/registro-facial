@@ -7,9 +7,9 @@ export default function Form() {
 
   const [cpf, setCpf] = useState('');
   const [turma, setTurma] = useState('');
-
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [capturedCpf, setCapturedCpf] = useState<string | null>(null);
+  const [capturedTime, setCapturedTime] = useState<string | null>(null); // State to store the capture time
   const [isCameraAccessible, setIsCameraAccessible] = useState(true);
 
   useEffect(() => {
@@ -31,30 +31,29 @@ export default function Form() {
       const imageSrc = webcamRef.current.getScreenshot();
       setCapturedImage(imageSrc);
 
-      // Salva os valores do CPF e da Turma
+      // Capture CPF and current time
       setCapturedCpf(cpf);
+      setCapturedTime(new Date().toLocaleString()); // Format the capture time
 
-      // Dados do formulário
       const formData = {
         cpf,
         turma,
         foto: imageSrc,
       };
 
-      // Limpa os campos após o clique
-      setCpf("");
-      setTurma("");
+      setCpf('');
+      setTurma('');
 
-      // Após 1 minuto a imagem sumirá
       setTimeout(() => {
         setCapturedImage(null);
         setCapturedCpf(null);
-      }, 60000);
+        setCapturedTime(null);
+      }, 6000);
 
-      alert("Frequência Realizada!");
+      alert('Frequência Realizada!');
       console.log('Dados do Formulário:', formData);
     } else {
-      alert("Erro ao realizar frequência!");
+      alert('Erro ao realizar frequência!');
       console.error('A câmera não está acessível');
     }
   };
@@ -67,19 +66,17 @@ export default function Form() {
             audio={false}
             ref={webcamRef}
             screenshotFormat="image/png"
-            className="bg-orange-600 border-2 border-orange-500 h-72 w-72 rounded-full object-cover"
+            className="bg-blue border-2 border-blue h-72 w-72 rounded-full object-cover"
             videoConstraints={{
               facingMode: 'user',
             }}
           />
           <p className="px-5 pt-2 text-center">
-            <span className="font-bold text-orange-500 text-md">Sorria!</span> Seu close de hoje vai direto para o álbum de presença!
+            <span className="font-bold text-blue text-md">Sorria!</span> Seu close de hoje vai direto para o álbum de presença!
           </p>
         </div>
       ) : (
-        <p className="text-red-500">
-          Permissão de acesso à câmera negada.
-        </p>
+        <p className="text-red-500">Permissão de acesso à câmera negada.</p>
       )}
 
       <form onSubmit={handleSubmit} className="pb-3 px-5 flex flex-col justify-center m-auto space-y-6">
@@ -102,19 +99,28 @@ export default function Form() {
         <button
           type="submit"
           disabled={!isCameraAccessible}
-          className="md:w-2/4 w-full m-auto p-2.5 text-2xl font-medium rounded-md text-white bg-orange-500 hover:bg-orange-600 transition-colors duration-200 disabled:bg-gray-400"
+          className="md:w-2/4 w-full m-auto p-2.5 text-2xl font-medium rounded-md text-white bg-blue hover:bg-light-blue transition-colors duration-200 disabled:bg-gray-400"
         >
           Registrar
         </button>
       </form>
 
       {capturedImage && (
-        <div className="absolute left-0 right-0 bottom-0 m-auto top-0 flex flex-col justify-center items-center mt-4">
-          <div className="space-y-10 bg-orange-500 h-[70vh] w-[60vw] flex flex-col justify-center items-center">
-            <button className="text-4xl font-extrabold text-white flex justify-end">X</button>
-            <h2 className="text-xl font-serif font-medium mb-2 text-orange-500">Registro Capturado:</h2>
-            <img src={capturedImage} alt="Captura do Aluno" className="border h-60 w-60 object-cover border-gray-300 rounded-full" />
+        <div className="absolute left-0 right-0 bottom-0 m-auto top-0 rounded-md flex flex-col justify-center items-center mt-4">
+          <div className="space-y-10 bg-blue h-[90vh] w-[80vw] sm:w-[60vw] md:w-[50vw] flex flex-col justify-center items-center p-6 rounded-lg shadow-lg">
+            <div className="mb-4 flex flex-row-reverse gap-4 justify-center items-center">
+              <button className="text-4xl font-extrabold text-white flex justify-end z-40">X</button>
+              <h2 className="text-xl font-serif font-medium text-white">Registro Capturado:</h2>
+            </div>
+            
+            <img src="https://letticiamoura.github.io/img-logo/birthday-12378.gif" alt="Gif confetes" className="w-[50vw] fixed object-cover top-1"/>
+            <img
+              src={capturedImage}
+              alt="Captura do Aluno"
+              className="border h-60 w-60 object-cover border-gray-300 rounded-full"
+            />
             {capturedCpf && <p className="text-white">CPF: {capturedCpf}</p>}
+            {capturedTime && <p className="text-white">Horário da Captura: {capturedTime}</p>}
           </div>
         </div>
       )}

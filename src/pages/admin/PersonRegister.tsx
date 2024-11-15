@@ -66,9 +66,12 @@ export default function StudentRegister ({name}: IRegister) {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen p-8">
+    <div className="flex justify-center items-center h-screen p-8 fixed top-20 left-[1vw] w-full overflow-y-auto pb-20 pt-20">
       <div className="w-full max-w-lg bg-white shadow-md rounded-lg p-8">
-        <h2 className="text-2xl font-bold mb-6 text-center text-orange-500">Cadastrar Novo {name}</h2>
+        <div className="flex items-center justify-center mb-6 space-x-20">
+          <h2 className="text-2xl font-bold text-center text-blue">Cadastrar Novo {name}</h2>
+          <h2 className="text-3xl text-blue font-extrabold">X</h2>
+        </div>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-sm font-medium text-orange-500">Nome</label>
