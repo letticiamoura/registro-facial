@@ -17,7 +17,6 @@ interface Student {
   groups: [Group];
 }
 
-
 interface Group {
   id: number;
   name: string;
