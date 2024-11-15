@@ -3,13 +3,14 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaEdit, FaTrash, FaAngleLeft } from "react-icons/fa";
 import { MdOutlineAdd } from "react-icons/md";
+import StudentRegister from './PersonRegister';
 
 interface Teacher {
   id: number;
-  nome: string;
+  name: string;
+  lastname: string;
   cpf: string;
-  disciplina: string;
-  graduacao: string;
+  birthDate: string;
   email: string;
 }
 
@@ -22,13 +23,14 @@ export default function Students() {
   const [error, setError] = useState('');
   const [open, setOpen] = useState(false);
 
-  const url = "https://letticiamoura.github.io/registro-facial-apiFake/api.json";
+  // const url = "https://letticiamoura.github.io/registro-facial-apiFake/api.json";
+  const url = "http://localhost:8080/persons/teachers"
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await axios.get(url);
-        setData(res.data.teachers);
+        setData(res.data);
         setLoading(false);
       } catch (error) {
         setError('Erro ao buscar dados da API');
@@ -37,6 +39,18 @@ export default function Students() {
     };
     fetchData();
   }, []);
+
+  const handleDelete = async (id: number) => {
+    if (window.confirm("Você tem certeza que deseja excluir este professor?")) {
+      try {
+        await axios.delete(`http://localhost:8080/persons/${id}`);
+        setData(prevData => prevData.filter(teacher => teacher.id !== id));
+      } catch (error) {
+        setError('Erro ao excluir professor');
+      }
+    }
+  };
+  
 
   if (loading) return <p>Carregando...</p>;
   if (error) return <p>{error}</p>;
@@ -66,28 +80,30 @@ export default function Students() {
         <table className="min-w-full table-auto border-collapse border border-orange-500 shadow-md">
           <thead className="bg-orange-500">
             <tr>
+              <th className="px-4 py-2 text-white">Id</th>
               <th className="px-4 py-2 text-white">Nome</th>
               <th className="px-4 py-2 text-white">CPF</th>
               <th className="px-4 py-2 text-white">Email</th>
-              <th className="px-4 py-2 text-white">Disciplina</th>
-              <th className="px-4 py-2 text-white">Graduação</th>
+              <th className="px-4 py-2 text-white">Aniversário</th>
               <th className="px-4 py-2 text-white">Ações</th>
             </tr>
           </thead>
           <tbody>
-            {data.map((student) => (
-              <tr key={student.id} className="bg-white hover:bg-orange-100 text-center">
-                <td className="border px-2 p-1">{student.nome}</td>
-                <td className="border px-2 p-1">{student.cpf}</td>
-                <td className="border px-2 p-1">{student.email}</td>
-                <td className="border px-2 p-1">{student.disciplina}</td>
-                <td className="border px-2 p-1">{student.graduacao}</td>
+            {data.map((teacher) => (
+              <tr key={teacher.id} className="bg-white hover:bg-orange-100 text-center">
+                <td className="border px-2 p-1">{teacher.id}</td>
+                <td className="border px-2 p-1">{teacher.name} {teacher.lastname}</td>
+                <td className="border px-2 p-1">{teacher.cpf}</td>
+                <td className="border px-2 p-1">{teacher.email}</td>
+                <td className="border px-2 p-1">{teacher.birthDate}</td>
                 <td className="border px-2 p-1">
                   <div className="flex justify-center items-center">
-                    <button className="text-white px-2 p-1 rounded-md hover:scale-110 mr-2">
-                      <FaEdit size={20} color="green" />
+                    <button onClick={() =>  navigate(`/edit/${teacher.id}`)} className="text-white px-2 p-1 rounded-md hover:scale-110 mr-2">
+                      <FaEdit size={20} color='green' />
                     </button>
-                    <button className="text-white px-2 p-1 rounded-md hover:scale-110">
+                    <button 
+                      onClick={() => handleDelete(teacher.id)} 
+                      className="text-white px-2 p-1 rounded-md hover:scale-110">
                       <FaTrash size={20} color="red" />
                     </button>
                   </div>
@@ -98,71 +114,10 @@ export default function Students() {
         </table>
       </div>
       
-      {open && (
-        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white w-full max-w-lg p-6 rounded-md shadow-lg">
-            <div className="flex justify-around items-center mb-4">
-                <h2 className="text-2xl px-20 font-serif font-bold text-orange-500">Cadastrar Professor</h2>
-                <h2 onClick={handleOpen} className="text-3xl font-bold text-orange-500 hover:text-orange-600 hover:scale-105 cursor-pointer">X</h2>
-            </div>
-            <div className="mb-4">
-                <label className={labelStyle}>Nome</label>
-                <input
-                    type="text"
-                    name="name"
-                    className={inputStyle}
-                    placeholder="Digite o nome"
-                    required
-                />
-            </div>
-            <div className="mb-4">
-              <label className={labelStyle}>CPF</label>
-              <input
-                type="text"
-                name="cpf"
-                className={inputStyle}
-                placeholder="Digite o CPF"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className={labelStyle}>Email</label>
-              <input
-                type="text"
-                name="matricula"
-                className={inputStyle}
-                placeholder="Digite o email"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className={labelStyle}>Disciplina</label>
-              <input
-                type="text"
-                name="curso"
-                className={inputStyle}
-                placeholder="Digite a disciplina"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className={labelStyle}>Graduação</label>
-              <input
-                type="text"
-                name="curso"
-                className={inputStyle}
-                placeholder="Digite a graduação"
-                required
-              />
-            </div>
-            <button
-              type="submit"
-              className="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600 w-full">
-              Cadastrar
-            </button>
-          </div>
-        </div>
-      )}
+      {
+        open &&
+          <StudentRegister name="Professor"/>
+      }
     </div>
   );
 }
