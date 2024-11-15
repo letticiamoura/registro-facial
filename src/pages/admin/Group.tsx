@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaEdit, FaTrash, FaAngleLeft } from "react-icons/fa";
 import { MdOutlineAdd } from "react-icons/md";
-import GroupRegister from './GroupRegister'; // Assegure-se de que o caminho está correto
+import GroupRegister from './GroupRegister';
 
 interface Group {
   id: number;
@@ -30,7 +30,7 @@ export default function Group() {
   const [error, setError] = useState('');
   const [open, setOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  const [currentGroup, setCurrentGroup] = useState<Partial<Group>>({}); // Estado para armazenar o grupo atual
+  const [currentGroup, setCurrentGroup] = useState<Partial<Group>>({});
 
   const url = "http://localhost:8080/groups";
 
@@ -47,6 +47,11 @@ export default function Group() {
     };
     fetchData();
   }, []);
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('pt-BR');
+  };
 
   const handleDelete = async (id: number) => {
     if (window.confirm("Você tem certeza que deseja excluir este grupo?")) {
@@ -77,34 +82,35 @@ export default function Group() {
   };
 
   const tHeader = [
-    { id: 1, name: "Nome" },
-    { id: 2, name: "Descrição" },
-    { id: 3, name: "Data Inicial" },
-    { id: 4, name: "Data Final" },
-    { id: 5, name: "Horário Inicial" },
-    { id: 6, name: "Horário Final" },
-    { id: 7, name: "Ações" }
+    { id: 1, name: "Id" },
+    { id: 2, name: "Nome" },
+    { id: 3, name: "Descrição" },
+    { id: 4, name: "Data Inicial" },
+    { id: 5, name: "Data Final" },
+    { id: 6, name: "Horário Inicial" },
+    { id: 7, name: "Horário Final" },
+    { id: 8, name: "Ações" }
   ];
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-serif font-extrabold text-center mb-8 text-orange-500">Lista de Grupos</h1>
+      <h1 className="text-4xl font-serif font-extrabold text-center mb-8 text-blue">Lista de Grupos</h1>
 
       <div className="mb-4 py-3 flex justify-between">
         <button
           onClick={() => navigate(-1)}
-          className="text-orange-500 rounded-md hover:bg-orange-600 hover:text-white hover:transition-colors">
+          className="text-blue rounded-md hover:bg-ligth-blue hover:text-white hover:transition-colors">
           <FaAngleLeft size={50} />
         </button>
         <button onClick={handleOpen}
-          className="bg-orange-500 text-white px-2 py-2 rounded-full hover:bg-orange-600 hover:scale-105 hover:transition-colors hover:delay-300">
+          className="bg-blue text-white px-2 py-2 rounded-full hover:bg-ligth-blue hover:scale-105 hover:transition-colors hover:delay-300">
           <MdOutlineAdd size={30} className="hover:scale-110 hover:transition-transform hover:delay-300" />
         </button>
       </div>
 
       <div className="overflow-x-auto">
-        <table className="min-w-full table-auto border-collapse border border-orange-500 shadow-md">
-          <thead className="bg-orange-500">
+        <table className="min-w-full table-auto border-collapse border border-blue shadow-md">
+          <thead className="bg-blue">
             <tr>
               {tHeader.map((item) => (
                 <th key={item.id} className="px-4 py-2 text-white">{item.name}</th>
@@ -113,11 +119,12 @@ export default function Group() {
           </thead>
           <tbody>
             {data.map((group) => (
-              <tr key={group.id} className="bg-white hover:bg-orange-100 text-center">
+              <tr key={group.id} className="bg-white hover:bg-blue/5 text-center">
+                <td className="border px-2 p-1">{group.id}</td>
                 <td className="border px-2 p-1">{group.name}</td>
                 <td className="border px-2 p-1">{group.description}</td>
-                <td className="border px-2 p-1">{group.initialDate}</td>
-                <td className="border px-2 p-1">{group.endDate}</td>
+                <td className="border px-2 p-1">{formatDate(group.initialDate)}</td>
+                <td className="border px-2 p-1">{formatDate(group.endDate)}</td>
                 <td className="border px-2 p-1">{group.initialTime}</td>
                 <td className="border px-2 p-1">{group.endTime}</td>
                 <td className="border px-2 p-1">
@@ -138,7 +145,7 @@ export default function Group() {
         </table>
       </div>
 
-      {open && <GroupRegister group={currentGroup} onClose={handleClose} editMode={editMode} />} {/* Passando o grupo atual e o estado de edição para o componente GroupRegister */}
+      {open && <GroupRegister group={currentGroup} onClose={handleClose} editMode={editMode} />}
     </div>
   );
 }
