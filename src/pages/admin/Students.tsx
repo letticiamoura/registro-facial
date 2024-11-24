@@ -42,7 +42,10 @@ export default function Students() {
             'ngrok-skip-browser-warning': 'true',
           },
         });
-        setData(res.data);
+  
+        const studentsWithoutTeachers = res.data.filter((person: Student) => !person.isTeacher);
+  
+        setData(studentsWithoutTeachers);
         setLoading(false);
       } catch (error) {
         setError('Erro ao buscar dados da API');
@@ -51,6 +54,7 @@ export default function Students() {
     };
     fetchData();
   }, []);
+  
 
   const handleDelete = async (id: number) => {
     if (window.confirm("Você tem certeza que deseja excluir este Aluno?")) {
