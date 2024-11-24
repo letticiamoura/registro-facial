@@ -31,12 +31,16 @@ export default function Students() {
   const [error, setError] = useState('');
   const [open, setOpen] = useState(false);
 
-  const url = "http://localhost:8080/persons/students";
+  const url = "https://7966-177-84-78-216.ngrok-free.app/persons";
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(url);
+        const res = await axios.get(url, {
+          headers: {
+            'ngrok-skip-browser-warning': 'true',
+          },
+        });
         setData(res.data);
         setLoading(false);
       } catch (error) {

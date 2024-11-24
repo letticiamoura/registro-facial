@@ -15,12 +15,6 @@ export default function Form() {
   // Novo estado para armazenar a imagem Base64 retornada pela API
   const [returnedBase64Image, setReturnedBase64Image] = useState<string | null>(null);
 
-  // Estado para controlar a visibilidade do modal
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-  // Estado para armazenar o status do reconhecimento
-  const [isRecognized, setIsRecognized] = useState<boolean | null>(null);
-
   const url = 'http://localhost:8080/attendances';
 
   useEffect(() => {
@@ -61,24 +55,18 @@ export default function Form() {
             },
           });
 
-          // Armazene o estado do reconhecimento
-          const identified = response.data.data?.identified ?? false;
-          setIsRecognized(identified);
-          console.log(response.data.data);
-
-          // Se o reconhecimento foi feito, armazene a imagem de referência
-          if (identified && response.data.data?.referenceImgBase64) {
-            setReturnedBase64Image(response.data.data.referenceImgBase64);
+          // Verifique o valor de identified na resposta para determinar o tipo de alerta
+          if (response.data.data && response.data.data.identified) {
+            alert('Presença registrada com sucesso!');
+          } else {
+            alert('Não reconhecido!');
           }
 
-          // Exibir o modal com a foto ou a mensagem de erro
-          setIsModalVisible(true);
-
-          // Fechar o modal automaticamente após 15 segundos
-          setTimeout(() => {
-            setIsModalVisible(false);
-          }, 6000); // 15 segundos
-
+          // Armazene a imagem Base64 retornada pela API
+          if (response.data.data && response.data.data.referenceImgBase64) {
+            setReturnedBase64Image(response.data.data.referenceImgBase64);
+          }
+          
         } catch (error) {
           console.error('Erro ao enviar os dados:', error);
           alert('Erro ao realizar frequência.');
@@ -86,6 +74,11 @@ export default function Form() {
 
         // Limpar campos e estados após o envio
         setCpf('');
+        setTimeout(() => {
+          setCapturedImage(null);
+          setCapturedCpf(null);
+          setCapturedTime(null);
+        }, 6000);
       } else {
         alert('Erro ao capturar a imagem!');
       }
@@ -141,41 +134,37 @@ export default function Form() {
         </button>
       </form>
 
-      {isModalVisible && (
+      {capturedImage && (
         <div className="absolute left-0 right-0 bottom-0 m-auto top-0 rounded-md flex flex-col justify-center items-center mt-4">
           <div className="space-y-10 bg-blue h-[90vh] w-[80vw] sm:w-[60vw] md:w-[50vw] flex flex-col justify-center items-center p-6 rounded-lg shadow-lg">
             <div className="mb-4 flex flex-row-reverse gap-4 justify-center items-center">
-              <button
-                onClick={() => setIsModalVisible(false)}
-                className="text-4xl font-extrabold text-white flex justify-end z-40"
-              >
-                X
-              </button>
-              <h2 className="text-xl font-serif font-medium text-white">
-                {isRecognized ? 'Registro Capturado' : 'Presença Não Registrada!'}
-              </h2>
+              <button className="text-4xl font-extrabold text-white flex justify-end z-40">X</button>
+              <h2 className="text-xl font-serif font-medium text-white">Registro Capturado:</h2>
             </div>
+            <img
+              src={capturedImage}
+              alt="Captura do Aluno"
+              className="border h-60 w-60 object-cover border-gray-300 rounded-full"
+            />
 
-            {isRecognized ? (
-              <img
-                src={`data:image/png;base64,${returnedBase64Image || capturedImage}`}
-                alt="Captura do Aluno"
-                className="border h-60 w-60 object-cover border-gray-300 rounded-full"
-              />
-            ) : (
-              <p className="text-white">Presença Não Registrada!</p>
-            )}
-
-            {isRecognized && capturedCpf && (
-              <p className="text-white">CPF: {capturedCpf}</p>
-            )}
-
-            {isRecognized && capturedTime && (
-              <p className="text-white">Horário da Captura: {capturedTime}</p>
-            )}
+              {/* Exibindo a imagem Base64 retornada pela API */}
+                {returnedBase64Image && (
+                  <div className="space-y-10 bg-gray h-auto w-[80vw] sm:w-[60vw] md:w-[50vw] flex flex-col justify-center items-center p-6 rounded-lg shadow-lg mt-4">
+                    <h2 className="text-xl font-serif font-medium text-white">Imagem de Referência - retornada pela API</h2>
+                    <img
+                      src={`data:image/png;base64,${returnedBase64Image}`}
+                      alt="Imagem Referência"
+                      className="border h-60 w-60 object-cover border-gray-300 rounded-full"
+                    />
+                  </div>
+                )}
+            {capturedCpf && <p className="text-white">CPF: {capturedCpf}</p>}
+            {capturedTime && <p className="text-white">Horário da Captura: {capturedTime}</p>}
           </div>
         </div>
       )}
+
+    
     </Layout>
   );
 }

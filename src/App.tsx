@@ -9,6 +9,8 @@ import StudentEdit from "./pages/admin/StudentEdit";
 import StudentRegister from "./pages/admin/PersonRegister";
 import Relatorio from "./pages/admin/Relatorios";
 import Group from "./pages/admin/Group";
+import ImageUploadForm from "./pages/ImageUploadForm";
+import RegisterComprove from "./pages/RegisterComprove";
 
 export default function App() {
   return (
@@ -22,12 +24,14 @@ export default function App() {
           <Route path="/home" element={<HomeAdmin />} />
           <Route path="/edit/:id" element={<StudentEdit />} />
           <Route path="/cadastro" element={<StudentRegister name=""/>} />
-          
+          <Route path="/upload" element={<ImageUploadForm />} />
           <Route path="/relatorio" element={<Relatorio />} />
           <Route path="/group" element={<Group />} />
           
           <Route path="/teacher/:id" element={<StudentEdit />} />
           <Route path="/cadastroteacher" element={<StudentRegister name="/"/>} />
+
+          <Route path="/register-comprove" element={<RegisterComprove />} />
         </Routes>
       </BrowserRouter>
   )
