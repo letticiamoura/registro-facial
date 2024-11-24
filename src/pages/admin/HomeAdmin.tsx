@@ -4,9 +4,9 @@ import { FaBookReader } from "react-icons/fa";
 import { HiDocument } from "react-icons/hi2";
 import { BsFillPeopleFill } from "react-icons/bs";
 import { GiTeacher } from "react-icons/gi";
-import { IoInformationCircle } from "react-icons/io5";
 import { MdOutlineLogout } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { IoIosAlarm } from "react-icons/io";
 
 export default function HomeAdmin() {
     // const classname = "w-[45vw] flex-col flex-wrap sm:w-2/3 lg:w-[15vw] p-5 text-xl rounded-md shadow-md bg-orange-500 text-white hover:bg-orange-400 transition-colors hover:scale-105 duration-200";
@@ -40,8 +40,8 @@ export default function HomeAdmin() {
                         Relatórios
                     </Link>
                     <button className={classname}>
-                        <IoInformationCircle size={60} className="m-auto" />
-                        Informações
+                        <IoIosAlarm size={60} className="m-auto" />
+                        Turmas
                     </button>
                     <Link to="/" className={classname}>
                         <MdOutlineLogout size={60} className="m-auto" />
@@ -56,10 +56,10 @@ export default function HomeAdmin() {
                         <BsFillPeopleFill size={60} className="m-auto"/>
                         Estudantes
                     </Link>
-                    <button className={classname}>
+                    <Link to="/teacher" className={classname}>
                         <GiTeacher size={60} className="m-auto" />
                         Professores
-                    </button>
+                    </Link>
                 </div>
 
                 <div className="sm:hidden flex text-center space-x-10 justify-center items-center">
@@ -75,8 +75,8 @@ export default function HomeAdmin() {
 
                 <div className="sm:hidden flex text-center space-x-10 justify-center items-center">
                     <button className={classname}>
-                        <IoInformationCircle size={60} className="m-auto" />
-                        Informação
+                        <IoIosAlarm size={60} className="m-auto" />
+                        Turmas
                     </button>
                     <Link to="/" className={classname}>
                         <MdOutlineLogout size={60} className="m-auto" />
