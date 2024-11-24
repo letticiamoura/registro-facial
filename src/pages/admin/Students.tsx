@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaAngleLeft } from "react-icons/fa";
 import { MdOutlineAdd } from "react-icons/md";
-import StudentRegister from './PersonRegister';
+import PersonRegister from './PersonRegister';
 import Card from '../../components/Card';
 
 interface Student {
@@ -26,7 +26,6 @@ interface Group {
 export default function Students() {
 
   const navigate = useNavigate();
-
   const [data, setData] = useState<Student[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -54,7 +53,6 @@ export default function Students() {
     };
     fetchData();
   }, []);
-  
 
   const handleDelete = async (id: number) => {
     if (window.confirm("Você tem certeza que deseja excluir este Aluno?")) {
@@ -73,10 +71,8 @@ export default function Students() {
   const handleOpen = () => setOpen(!open);
 
   return (
-
     <div className="container mx-auto py-8">
-      
-        <h1 className="text-4xl font-serif font-extrabold text-center text-blue">Lista de Estudantes</h1>
+      <h1 className="text-4xl font-serif font-extrabold text-center text-blue">Lista de Estudantes</h1>
 
       <div className="px-4 mb-4 py-3 flex justify-between">
         <button
@@ -90,27 +86,27 @@ export default function Students() {
         </button>
       </div>
 
-      {data.map((student) => (
-         <div key={student.id} className="py-5">
+      {data.map((student) => {
+        // Formatando a data de nascimento
+        const formattedDate = new Intl.DateTimeFormat('pt-BR').format(new Date(student.birthDate));
+
+        return (
+          <div key={student.id} className="py-5">
             <Card
               Ccpf={student.cpf}
               Cname={student.name} 
               Clastname={student.lastname} 
-              Cemail={student.email}
-              Cimage={`data:image/jpeg;base64,${student.photo}`}
+              Cimage={`data:image/jpeg;base64,${student.photo}`} 
               Ccurso={student.groups.map(group => group.name)} 
+              CbirthDate={formattedDate}  // Passando a data formatada
               Cedit={() => navigate(`/edit/${student.id}`)}
               Cremove={() => handleDelete(student.id)}
             />
-         </div>
-      ))}
-      
-    {
-      open &&
-      <StudentRegister name="Estudante" />
-    }
+          </div>
+        );
+      })}
 
+      {open && <PersonRegister name="Estudante" />}
     </div>
-
   );
 }

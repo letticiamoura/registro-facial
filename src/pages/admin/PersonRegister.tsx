@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-interface IRegister  {
+
+interface IRegister {
   name: string;
 }
-export default function StudentRegister ({name}: IRegister) {
+
+export default function StudentRegister({ name }: IRegister) {
+
   const [formData, setFormData] = useState({
     name: '',
     lastname: '',
@@ -13,6 +16,7 @@ export default function StudentRegister ({name}: IRegister) {
     isTeacher: false,
     photo: null as File | null,
   });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -28,7 +32,7 @@ export default function StudentRegister ({name}: IRegister) {
     const file = e.target.files?.[0] || null;
     setFormData((prev) => ({
       ...prev,
-      photo: file, // Armazena o arquivo diretamente
+      photo: file,
     }));
   };
 
@@ -44,7 +48,7 @@ export default function StudentRegister ({name}: IRegister) {
     data.append('birthDate', formData.birthDate);
     data.append('isTeacher', String(formData.isTeacher));
     if (formData.photo) {
-      data.append('photo', formData.photo); 
+      data.append('photo', formData.photo);
     }
 
     try {
@@ -133,7 +137,8 @@ export default function StudentRegister ({name}: IRegister) {
               className="w-full p-2 border rounded-md focus:ring-2 focus:ring-orange-500"
             />
           </div>
-          <div className="mb-4">
+          {/* O campo "É Professor?" será ocultado com display: none se o nome for "Estudante" */}
+          <div className={`mb-4 ${name === 'Estudante' ? 'hidden' : ''}`}>
             <label className="inline-flex items-center">
               <input
                 type="checkbox"
@@ -142,7 +147,9 @@ export default function StudentRegister ({name}: IRegister) {
                 onChange={(e) => setFormData({ ...formData, isTeacher: e.target.checked })}
                 className="form-checkbox h-5 w-5 text-orange-500"
               />
-              <span className="ml-2 text-sm font-medium text-orange-500">É Professor?</span>
+              <span className="ml-2 text-sm font-medium text-orange-500">
+                {formData.isTeacher ? "É Professor?" : "Não é Professor"}
+              </span>
             </label>
           </div>
           <button
@@ -155,4 +162,4 @@ export default function StudentRegister ({name}: IRegister) {
       </div>
     </div>
   );
-};
+}

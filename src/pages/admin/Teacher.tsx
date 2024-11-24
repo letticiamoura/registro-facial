@@ -13,6 +13,7 @@ interface Teacher {
   birthDate: string;
   email: string;
   photo: string;
+  isTeacher: boolean; // Certifique-se de que essa propriedade exista no seu modelo
 }
 
 export default function Students() {
@@ -22,13 +23,15 @@ export default function Students() {
   const [error, setError] = useState('');
   const [open, setOpen] = useState(false);
 
-  const url = "http://localhost:8080/persons/teachers";
+  const url = "http://localhost:8080/persons";
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await axios.get(url);
-        setData(res.data);
+        // Filtrando os dados para incluir apenas professores (isTeacher === true)
+        const filteredTeachers = res.data.filter((person: Teacher) => person.isTeacher === true);
+        setData(filteredTeachers);
       } catch (error) {
         setError('Erro ao buscar dados da API');
       } finally {
