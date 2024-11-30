@@ -5,6 +5,8 @@ import { FaAngleLeft } from "react-icons/fa";
 import { MdOutlineAdd } from "react-icons/md";
 import PersonRegister from './PersonRegister';
 import Card from '../../components/Card';
+import logo from "../../assets/logo.png";
+import LoadingPage from '../../components/LoadingPage';
 
 interface Student {
   id: number;
@@ -65,33 +67,40 @@ export default function Students() {
     }
   };
 
-  if (loading) return <p>Carregando...</p>;
+  if (loading) return <LoadingPage />;
   if (error) return <p>{error}</p>;
 
   const handleOpen = () => setOpen(!open);
 
   return (
-    <div className="container mx-auto py-8">
-      <h1 className="text-4xl font-serif font-extrabold text-center text-blue">Lista de Estudantes</h1>
+    <div className="bg-slate-300/30">
 
-      <div className="px-4 mb-4 py-3 flex justify-between">
-        <button
-          onClick={() => navigate(-1)}
-          className="text-blue rounded-md hover:bg-blue hover:text-white hover:transition-colors">
-          <FaAngleLeft size={50} />
-        </button>
-        <button onClick={handleOpen}
-          className="bg-blue text-white px-2 py-2 rounded-full hover:bg-ligth-blue hover:scale-105 hover:transition-colors hover:delay-300">
-          <MdOutlineAdd size={30} className="hover:scale-110 hover:transition-transform hover:delay-300" />
-        </button>
+      <div className="bg-slate-950 w-full rounded-bl-[20px] rounded-br-[20px] flex justify-center items-center">
+        
+        <img src={logo} alt="Logo Adda" className="h-16" />
+        <h1 className="py-8 text-3xl font-serif font-extrabold text-center text-white">Lista de Estudantes</h1>
+
+      </div>
+
+      <div className="mb-4 py-3 flex justify-between px-20">
+          <button
+            onClick={() => navigate(-1)}
+            className="text-blue rounded-md hover:bg-blue hover:text-white hover:transition-colors">
+            <FaAngleLeft size={50} />
+          </button>
+          <button onClick={handleOpen}
+            className="bg-blue text-white font-extrabold px-2 py-2 rounded-full hover:bg-ligth-blue hover:scale-105 hover:transition-colors hover:delay-300">
+            <MdOutlineAdd size={30} className="hover:scale-110 hover:transition-transform hover:delay-300" />
+          </button>
       </div>
 
       {data.map((student) => {
-        // Formatando a data de nascimento
+
+        //Formatando a data de nascimento
         const formattedDate = new Intl.DateTimeFormat('pt-BR').format(new Date(student.birthDate));
 
         return (
-          <div key={student.id} className="py-5">
+          <div key={student.id} className="py-5 container px-10 m-auto">
             <Card
               Ccpf={student.cpf}
               Cname={student.name} 

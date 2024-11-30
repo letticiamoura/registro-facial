@@ -9,9 +9,8 @@ import { Link } from "react-router-dom";
 import { IoIosAlarm } from "react-icons/io";
 
 export default function HomeAdmin() {
-    // const classname = "w-[45vw] flex-col flex-wrap sm:w-2/3 lg:w-[15vw] p-5 text-xl rounded-md shadow-md bg-orange-500 text-white hover:bg-orange-400 transition-colors hover:scale-105 duration-200";
-
-    const classname = "w-[45vw] flex-col flex-wrap sm:w-2/3 lg:w-[15vw] p-5 text-xl rounded-md border-orange-500 text-blue shadow-blue drop-shadow-lg shadow-md transition-colors hover:bg-ligth-blue hover:text-white hover:shadow-black/50  hover:scale-105 duration-200";
+    
+    const classname = "w-[45vw] flex-col flex-wrap sm:w-2/3 lg:w-[15vw] p-5 text-xl rounded-md border-orange-500 text-slate-950 shadow-blue drop-shadow-lg shadow-md transition-colors hover:bg-blue hover:text-white hover:shadow-black/20 hover:scale-105 duration-200 bg-white font-serif";
 
     return(
         <Layout>

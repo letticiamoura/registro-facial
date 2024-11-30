@@ -11,6 +11,7 @@ import Relatorio from "./pages/admin/Relatorios";
 import Group from "./pages/admin/Group";
 import ImageUploadForm from "./pages/ImageUploadForm";
 import RegisterComprove from "./pages/RegisterComprove";
+import RegisterEncode from "./pages/RegisterEncode";
 
 export default function App() {
   return (
@@ -32,6 +33,7 @@ export default function App() {
           <Route path="/cadastroteacher" element={<StudentRegister name="/"/>} />
 
           <Route path="/register-comprove" element={<RegisterComprove />} />
+          <Route path="/register-encode" element={<RegisterEncode />} />
         </Routes>
       </BrowserRouter>
   )
